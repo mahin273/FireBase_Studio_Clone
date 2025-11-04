@@ -1,17 +1,21 @@
 import { useCreateProject } from "../hooks/apis/mutations/useCreateProject";
 import { Button, Card, Typography, Space, message } from "antd";
 import { PlusOutlined, LoadingOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Text } = Typography;
 
 export const CreateProject = () => {
   const { createProjectMutation, isPending } = useCreateProject();
+  const navigate=useNavigate();
 
   async function handleCreateProject() {
     try {
-      await createProjectMutation();
+     const response = await createProjectMutation();
       message.success("Project created successfully!");
       console.log("Redirect to the editor");
+      navigate(`/project/${response.data}`)
+
     } catch (error) {
       message.error("Error creating project");
       console.error(error);
@@ -63,3 +67,4 @@ export const CreateProject = () => {
     </div>
   );
 };
+   
