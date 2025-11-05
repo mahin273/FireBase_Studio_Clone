@@ -27,7 +27,7 @@ async function downloadTheme() {
   return (
     <div className="flex flex-col h-screen bg-gray-900 text-white">
       {/* Top bar */}
-      <div className="flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700">
+      {/* <div className="flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700">
         <h1 className="text-lg font-semibold">My Firebase Project</h1>
         <div className="space-x-2">
           <button className="px-3 py-1 bg-blue-600 hover:bg-blue-500 rounded text-sm font-medium">
@@ -37,7 +37,7 @@ async function downloadTheme() {
             Save
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* Editor */}
       <div className="flex-1">

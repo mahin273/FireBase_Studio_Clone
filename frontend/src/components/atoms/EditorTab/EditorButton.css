@@ -1,0 +1,18 @@
+.editor-button{
+  outline: none;
+  min-width: 100px;
+  background-color: rgb(24, 26, 54);
+  font-size: 14px;
+  height: 25px;
+  color: white;
+  border: 15px;
+  border-left: none;
+  border-bottom: none;
+  border-top:2px solid rgb(204, 101, 101) ;
+  min-width: 100px;
+  padding: 3px 7px 3px 7px;
+
+
+
+
+}

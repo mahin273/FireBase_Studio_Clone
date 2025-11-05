@@ -1,12 +1,16 @@
-import { useParams } from "react-router-dom"
+
 import { EditorComponent } from "../components/molecules/EditorComponent/EditorComponent";
+import { EditorTab } from "../components/atoms/EditorTab/EditorTab";
 
 export const CodePlayground = ()=>{
-    const{projectId}=useParams();
+
     return(
         <>
-        projectId: {projectId}
-        <EditorComponent />
+
+        <EditorTab isActive={true} />
+        <EditorTab isActive={false}/>
+        <EditorComponent  />
+
         </>
     )
-} 
+}
