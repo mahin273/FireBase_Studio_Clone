@@ -12,7 +12,7 @@ export const EditorTab=({isActive})=>{
           // backgroundColor: isActive? 'red':'blue'
           borderTop:isActive? 'border-top:2px solid rgb(204, 101, 101)' :'none'
         }}
-        onclick={handleClick}
+        onClick={handleClick}
         >
             file.js
         </button>
