@@ -8,7 +8,7 @@ import path from 'path';
 export const createProjectService = async()=>{
 	const projectId = uuid4();
 	await fs.mkdir(`./projects/${projectId}`)
-	
+
 	const response = await exec(REACT_PROJECT_COMMAND, {
 		cwd: `./projects/${projectId}`
 	});

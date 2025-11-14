@@ -1,11 +1,15 @@
 import Editor from '@monaco-editor/react'
 import { useEffect, useState } from 'react'
+import { useEditorSocketStore } from '../../../store/editorSocketStore';
 
 export const EditorComponent = () => {
 
     const [editorState, setEditorState] = useState({
     theme: null,
   });
+
+  // const{editorSocket}=useEditorSocketStore();
+
 async function downloadTheme() {
     const response =await fetch('/themes/night-owl.json')
     const data = await response.json();
@@ -17,6 +21,11 @@ async function downloadTheme() {
               monaco.editor.defineTheme('night-owl',editorState.theme);
               monaco.editor.setTheme('night-owl')}
    }
+
+  //  editorSocket.on("readFileSuccess",(data)=>{
+  //   console.log("Read File Success:",data);
+  //  })
+
    useEffect(()=>{
     downloadTheme();
 

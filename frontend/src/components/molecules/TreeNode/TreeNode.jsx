@@ -2,9 +2,11 @@ import { useState } from "react";
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { FaFolder, FaFolderOpen, FaFileCode } from "react-icons/fa";
 import { FileIcon } from "../../atoms/FileIcon/FileIcon";
+import { useEditorSocketStore } from "../../../store/editorSocketStore";
 
 export const TreeNode = ({ fileFolderData }) => {
   const [visibility, setVisibility] = useState({});
+  const{editorSocket}=useEditorSocketStore();
 
   function toggleVisibility(name) {
     setVisibility((prev) => ({
@@ -22,6 +24,13 @@ export const TreeNode = ({ fileFolderData }) => {
     const name = fileFolderData.name.split(".");
     return name[name.length - 1];
   }
+
+  function handleDoubleClick(fileFolderData) {
+    console.log("Double clicked on:", fileFolderData);
+    editorSocket.emit("readFile",{
+      pathToFileOrFolder:fileFolderData.path
+    })
+  }
   return (
     <div className="pl-4 text-[#d6deeb] select-none font-mono">
       {hasChildren ? (
@@ -29,6 +38,7 @@ export const TreeNode = ({ fileFolderData }) => {
           <button
             onClick={() => toggleVisibility(fileFolderData.name)}
             className="flex items-center gap-2 w-full text-left text-sm hover:text-[#7fdbca] transition-colors duration-150"
+
           >
             {isVisible ? (
               <IoIosArrowDown className="text-[#7fdbca]" />
@@ -53,7 +63,9 @@ export const TreeNode = ({ fileFolderData }) => {
           )}
         </div>
       ) : (
-        <div className="flex items-center gap-2 pl-6 py-1 text-sm hover:text-[#7fdbca] transition-colors duration-150 cursor-pointer">
+        <div
+        onDoubleClick={() => handleDoubleClick(fileFolderData)}
+        className="flex items-center gap-2 pl-6 py-1 text-sm hover:text-[#7fdbca] transition-colors duration-150 cursor-pointer">
           <FileIcon extnension={computeExtension(fileFolderData)} />
           <span>{fileFolderData.name}</span>
         </div>

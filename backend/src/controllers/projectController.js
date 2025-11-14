@@ -3,7 +3,7 @@ import { createProjectService, getProjectTreeService } from "../service/projectS
 export const createProjectController = async(req,res)=>{
 	const projectId = await createProjectService();
   return res.json({message:'Project created',data: projectId})
-	
+
 }
 
 export const getProjectTreeController = async(req,res)=>{
@@ -13,5 +13,5 @@ export const getProjectTreeController = async(req,res)=>{
 		success:true,
 		message:'Project tree fetched successfully'
 	})
-	
+
 }
