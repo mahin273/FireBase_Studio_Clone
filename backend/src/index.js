@@ -34,7 +34,7 @@ const editorNampespace = io.of('/editor');
 editorNampespace.on('connection',(socket)=>{
      console.log("Editor connected")
 
-     console.log(socket)
+    //  console.log(socket)
 
   let projectId = socket.handshake.query.projectId;
 
@@ -56,7 +56,7 @@ editorNampespace.on('connection',(socket)=>{
       })
     };
 
-    handleEditorSocketEvent(socket);
+    handleEditorSocketEvent(socket,editorNampespace);
 
 
 

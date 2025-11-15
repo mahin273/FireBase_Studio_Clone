@@ -1,15 +1,17 @@
 import Editor from '@monaco-editor/react'
-import { use, useEffect, useState } from 'react'
-import { useEditorSocketStore } from '../../../store/editorSocketStore';
+import { useEffect, useState } from 'react'
 import { useActiveFileTabStore } from '../../../store/activeFileTabStore';
+import { useEditorSocketStore } from '../../../store/editorSocketStore';
 export const EditorComponent = () => {
 
     const [editorState, setEditorState] = useState({
     theme: null,
   });
 
-  const{editorSocket}=useEditorSocketStore();
-  const{activeFileTab,setActiveFileTab}=useActiveFileTabStore();
+
+  const{activeFileTab}=useActiveFileTabStore();
+
+  const {editorSocket}=useEditorSocketStore();
 
 
 async function downloadTheme() {
@@ -24,19 +26,27 @@ async function downloadTheme() {
               monaco.editor.setTheme('night-owl')}
    }
 
-   editorSocket?.on("readFileSuccess",(data)=>{
-    console.log("Read File Success:",data);
-    setActiveFileTab(data.path,data.value)
-   })
+   let timerId=null;
+   function handleChange(value,){ // debounce implementation
+
+    if(timerId!=null){
+        clearTimeout(timerId);
+    }
+      timerId=setTimeout(()=>{
+        const editorContent = value;
+      editorSocket?.emit("writeFile",{
+        data:editorContent,
+        pathToFileOrFolder:activeFileTab.path
+      },2000)
+      })
+  }
+
+
 
    useEffect(()=>{
     downloadTheme();
 
    },[])
-
-   useEffect(()=>{
-    if(!editorSocket) return;
-   },[activeFileTab])
 
 
 
@@ -78,6 +88,7 @@ async function downloadTheme() {
 
          value={activeFileTab?.value?activeFileTab.value:"// Open a file to start coding..."}
           onMount={handleEditorTheme}
+          onChange={handleChange}
 
 
         />}
