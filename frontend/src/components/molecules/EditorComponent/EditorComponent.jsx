@@ -1,14 +1,16 @@
 import Editor from '@monaco-editor/react'
-import { useEffect, useState } from 'react'
+import { use, useEffect, useState } from 'react'
 import { useEditorSocketStore } from '../../../store/editorSocketStore';
-
+import { useActiveFileTabStore } from '../../../store/activeFileTabStore';
 export const EditorComponent = () => {
 
     const [editorState, setEditorState] = useState({
     theme: null,
   });
 
-  // const{editorSocket}=useEditorSocketStore();
+  const{editorSocket}=useEditorSocketStore();
+  const{activeFileTab,setActiveFileTab}=useActiveFileTabStore();
+
 
 async function downloadTheme() {
     const response =await fetch('/themes/night-owl.json')
@@ -22,14 +24,19 @@ async function downloadTheme() {
               monaco.editor.setTheme('night-owl')}
    }
 
-  //  editorSocket.on("readFileSuccess",(data)=>{
-  //   console.log("Read File Success:",data);
-  //  })
+   editorSocket?.on("readFileSuccess",(data)=>{
+    console.log("Read File Success:",data);
+    setActiveFileTab(data.path,data.value)
+   })
 
    useEffect(()=>{
     downloadTheme();
 
    },[])
+
+   useEffect(()=>{
+    if(!editorSocket) return;
+   },[activeFileTab])
 
 
 
@@ -68,7 +75,10 @@ async function downloadTheme() {
             },
             scrollBeyondLastLine: false,
           }}
+
+         value={activeFileTab?.value?activeFileTab.value:"// Open a file to start coding..."}
           onMount={handleEditorTheme}
+
 
         />}
       </div>

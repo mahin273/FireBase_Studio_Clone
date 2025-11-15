@@ -40,8 +40,10 @@ editorNampespace.on('connection',(socket)=>{
 
   console.log("Project id after conection",projectId);
 
+    let watcher;
+
     if(projectId){
-      var watcher = chokidar.watch(`./projects/${projectId}`,{
+       watcher = chokidar.watch(`./projects/${projectId}`,{
         ignored:(path)=>path.includes("node_modules"),
         persistent:true,
         awaitWriteFinish:{

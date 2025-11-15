@@ -8,10 +8,11 @@ import path from 'path';
 export const createProjectService = async()=>{
 	const projectId = uuid4();
 	await fs.mkdir(`./projects/${projectId}`)
-
+  console.log("Service Started");
 	const response = await exec(REACT_PROJECT_COMMAND, {
 		cwd: `./projects/${projectId}`
 	});
+  console.log("Service Ended");
 	return projectId;
 }
 
@@ -20,4 +21,3 @@ export const getProjectTreeService= async(projectId)=>{
 	const tree =   directoryTree(projectPath);
 	return tree;
 }
-
