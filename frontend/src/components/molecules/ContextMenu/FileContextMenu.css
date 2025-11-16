@@ -1,0 +1,25 @@
+.fileContextButton{
+    width:100%;
+    height: 30px;
+    padding:5px;
+    border:2px solid rgb(0, 0, 0);
+    color: "white";
+    background-color:rgb(73, 118, 177);
+    text-align:left;
+    cursor:pointer;
+
+}
+
+.fileContextButton:hover{
+    background-color:rgb(100, 192, 128);
+}
+
+
+.fileContextOptionsWrapper{
+    display:flex;
+    flex-direction:column;
+    width: 120px;
+    position:fixed;
+    border:1.5px solid black;
+    background-color:white;
+}

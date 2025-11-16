@@ -3,10 +3,23 @@ import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { FaFolder, FaFolderOpen, FaFileCode } from "react-icons/fa";
 import { FileIcon } from "../../atoms/FileIcon/FileIcon";
 import { useEditorSocketStore } from "../../../store/editorSocketStore";
+import { useFileContextMenuStore } from "../../../store/fileContextMenuStore";
+import { useFolderContextMenuStore } from "../../../store/folderContextMenuStore";
 
 export const TreeNode = ({ fileFolderData }) => {
   const [visibility, setVisibility] = useState({});
+
   const{editorSocket}=useEditorSocketStore();
+
+  const{setFile,setIsOpen:setFileContextMenuIsOpen,
+    setX:setFileContextMenuX,
+    setY:setFileContextMenuY
+  }=useFileContextMenuStore();
+
+  const{setFolder,setIsOpen:setFolderContextMenuIsOpen,
+    setX:setFolderContextMenuX,
+    setY:setFolderContextMenuY
+  }=useFolderContextMenuStore();
 
   function toggleVisibility(name) {
     setVisibility((prev) => ({
@@ -31,12 +44,36 @@ export const TreeNode = ({ fileFolderData }) => {
       pathToFileOrFolder:fileFolderData.path
     })
   }
+
+  function handleContextMenuForFiles(e,path){
+    e.preventDefault();
+    console.log("Right Clicked on",path)
+    setFile(path);
+    setFileContextMenuX(e.clientX);
+    setFileContextMenuY(e.clientY);
+    setFileContextMenuIsOpen(true);
+
+  }
+  function handleContextMenuForFolders(e,path){
+
+    e.preventDefault();
+      e.stopPropagation();
+  e.nativeEvent.stopImmediatePropagation();
+    console.log("Right Clicked on folder",path)
+    setFolder(path);
+    setFolderContextMenuX(e.clientX);
+    setFolderContextMenuY(e.clientY);
+    setFolderContextMenuIsOpen(true);
+  }
+
   return (
     <div className="pl-4 text-[#d6deeb] select-none font-mono">
       {hasChildren ? (
         <div>
           <button
+           onContextMenu={(e)=>handleContextMenuForFolders(e,fileFolderData.path)}
             onClick={() => toggleVisibility(fileFolderData.name)}
+
             className="flex items-center gap-2 w-full text-left text-sm hover:text-[#7fdbca] transition-colors duration-150"
 
           >
@@ -64,6 +101,7 @@ export const TreeNode = ({ fileFolderData }) => {
         </div>
       ) : (
         <div
+        onContextMenu={(e)=>handleContextMenuForFiles(e,fileFolderData.path)}
         onDoubleClick={() => handleDoubleClick(fileFolderData)}
         className="flex items-center gap-2 pl-6 py-1 text-sm hover:text-[#7fdbca] transition-colors duration-150 cursor-pointer">
           <FileIcon extnension={computeExtension(fileFolderData)} />
