@@ -2,6 +2,7 @@ import Editor from '@monaco-editor/react'
 import { useEffect, useState } from 'react'
 import { useActiveFileTabStore } from '../../../store/activeFileTabStore';
 import { useEditorSocketStore } from '../../../store/editorSocketStore';
+import { extensionToFileType } from '../../../utils/extensionToFileType';
 export const EditorComponent = () => {
 
     const [editorState, setEditorState] = useState({
@@ -71,7 +72,8 @@ async function downloadTheme() {
         <Editor
           height="100%"
           width="100%"
-          defaultLanguage="javascript"
+          defaultLanguage={undefined}
+          language={extensionToFileType(activeFileTab?.extension)}
           defaultValue="// Start coding..."
           options={{
             fontSize: 14,

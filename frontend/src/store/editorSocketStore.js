@@ -10,7 +10,8 @@ export const useEditorSocketStore = create((set)=>({
     const projectTreeStructureSetter = useTreeStructureStore.getState().setTreeStructure;
     socket?.on("readFileSuccess",(data)=>{
     console.log("Read File Success:",data);
-    activeFileTabStore(data.path,data.value)
+    const filExtension = data.path.split('.').pop();
+    activeFileTabStore(data.path,data.value,filExtension)
    });
    socket?.on("writeFileSuccess",(data)=>{
     console.log("Write File Success:",data);
